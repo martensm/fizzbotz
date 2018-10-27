@@ -13,7 +13,6 @@ words_path = pathlib.PurePath(__file__).parents[1] / "data/words.txt"
 class Word:
     @commands.command(aliases=["w", "W"])
     async def word(self, ctx: Context) -> None:
-        await ctx.send(words_path)
         """Get a random word."""
         stat = await aiofiles.os.stat(words_path)
         file_size = stat.st_size
