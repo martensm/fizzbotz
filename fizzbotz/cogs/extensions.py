@@ -5,7 +5,7 @@ from discord.ext import commands
 from discord.ext.commands import Bot, Context
 
 
-class Manage:
+class Extensions:
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
@@ -48,4 +48,4 @@ class Manage:
 
 
 def setup(bot: Bot) -> None:
-    bot.add_cog(Manage(bot))
+    bot.add_cog(Extensions(bot))
