@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import discord
 from discord.ext import commands
-from discord.ext.commands import Context
+from discord.ext.commands import Bot, Context
 
 embed_bg_color = discord.Color.from_rgb(54, 57, 63)
 
@@ -20,5 +20,5 @@ class Avatar(commands.Cog):
         await ctx.send(embed=avatar_embed)
 
 
-def setup(bot) -> None:
+def setup(bot: Bot) -> None:
     bot.add_cog(Avatar())

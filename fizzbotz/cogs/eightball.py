@@ -3,7 +3,7 @@ from __future__ import annotations
 import random
 
 from discord.ext import commands
-from discord.ext.commands.context import Context
+from discord.ext.commands import Bot, Context
 
 responses = [
     "It is certain.",
@@ -48,5 +48,5 @@ class Eightball(commands.Cog):
         await ctx.send(msg)
 
 
-def setup(bot) -> None:
+def setup(bot: Bot) -> None:
     bot.add_cog(Eightball())

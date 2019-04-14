@@ -4,7 +4,7 @@ import pathlib
 import random
 
 from discord.ext import commands
-from discord.ext.commands import Context
+from discord.ext.commands import Bot, Context
 
 import aiofiles
 import aiofiles.os
@@ -29,5 +29,5 @@ class Word(commands.Cog):
         await ctx.send(word)
 
 
-def setup(bot) -> None:
+def setup(bot: Bot) -> None:
     bot.add_cog(Word())

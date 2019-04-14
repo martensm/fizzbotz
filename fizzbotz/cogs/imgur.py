@@ -63,5 +63,5 @@ class Imgur(commands.Cog):
             await ctx.send(image_url)
 
 
-def setup(bot) -> None:
+def setup(bot: Bot) -> None:
     bot.add_cog(Imgur(bot))
