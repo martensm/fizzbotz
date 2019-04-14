@@ -12,7 +12,7 @@ import aiofiles.os
 words_path = pathlib.PurePath(__file__).parents[1] / "data/words.txt"
 
 
-class Word:
+class Word(commands.Cog):
     @commands.command(aliases=["w", "W"])
     async def word(self, ctx: Context) -> None:
         """Get a random word."""

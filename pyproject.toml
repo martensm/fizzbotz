@@ -9,7 +9,7 @@ license = "MIT"
 python = ">=3.6"
 aiofiles = "^0.4.0"
 aiohttp = "^3.4"
-"discord.py" = {git = "https://github.com/Rapptz/discord.py", branch = "rewrite"}
+"discord.py" = "^1.0.1"
 pynacl = "^1.2"
 python-dotenv = "^0.9.1"
 uvloop = {version = "^0.11.2", platform = "*nix"}

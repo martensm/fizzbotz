@@ -37,7 +37,7 @@ async def fill_queue():
 embed_bg_color = discord.Color.from_rgb(54, 57, 63)
 
 
-class Imgur:
+class Imgur(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         bot.loop.create_task(fill_queue())
 

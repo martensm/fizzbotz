@@ -29,7 +29,7 @@ responses = [
 ]
 
 
-class Eightball:
+class Eightball(commands.Cog):
     @commands.command(aliases=["8", "8ball", "eb", "e", "E"])
     async def eightball(self, ctx: Context) -> None:
         """Get a random answer from an eight ball."""
