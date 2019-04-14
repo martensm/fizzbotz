@@ -11,6 +11,7 @@ from .environments import DEBUG, DEBUG_TOKEN, DESCRIPTION, PREFIX, STATUS, TOKEN
 
 log = logging.getLogger(__name__)
 initial_extensions = (
+    "fizzbotz.cogs.admin",
     "fizzbotz.cogs.avatar",
     "fizzbotz.cogs.eightball",
     "fizzbotz.cogs.extensions",
