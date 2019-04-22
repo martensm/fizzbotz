@@ -49,7 +49,7 @@ def _get_inspirobot_url() -> str:
     return generate_inspirobot_url
 
 
-async def _send_embed(ctx, title, url):
+async def _send_embed(ctx: Context, title: str, url: str) -> None:
     author = ctx.author
     image_embed = (
         discord.Embed(
