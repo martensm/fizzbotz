@@ -16,7 +16,7 @@ from ..utils import AsyncBuffer
 embed_bg_color = discord.Color.from_rgb(54, 57, 63)
 
 
-def _get_imgur_url(id_length) -> str:
+def _get_imgur_url(id_length: int) -> str:
     base_url = "https://i.imgur.com/"
     valid_characters = string.ascii_letters + string.digits
 
