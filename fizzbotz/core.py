@@ -15,7 +15,7 @@ initial_extensions = (
     "fizzbotz.cogs.avatar",
     "fizzbotz.cogs.eightball",
     "fizzbotz.cogs.extensions",
-    "fizzbotz.cogs.imgur",
+    "fizzbotz.cogs.images",
     "fizzbotz.cogs.word",
 )
 
