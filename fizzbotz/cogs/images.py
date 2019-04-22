@@ -16,7 +16,7 @@ from ..utils import AsyncBuffer
 embed_bg_color = discord.Color.from_rgb(54, 57, 63)
 
 
-def get_imgur_url(id_length) -> str:
+def _get_imgur_url(id_length) -> str:
     base_url = "https://i.imgur.com/"
     valid_characters = string.ascii_letters + string.digits
 
@@ -38,7 +38,7 @@ def get_imgur_url(id_length) -> str:
     return generate_imgur_url
 
 
-def get_inspirobot_url() -> str:
+def _get_inspirobot_url() -> str:
     url = "https://inspirobot.me/api?generate=true"
 
     async def generate_inspirobot_url():
@@ -49,13 +49,31 @@ def get_inspirobot_url() -> str:
     return generate_inspirobot_url
 
 
+async def _send_embed(ctx, title, url):
+    author = ctx.author
+    image_embed = (
+        discord.Embed(
+            color=embed_bg_color, title=f":frame_photo: | Here is your {title} image:"
+        )
+        .set_author(name=author.display_name, icon_url=author.avatar_url)
+        .set_image(url=url)
+    )
+
+    try:
+        await ctx.send(embed=image_embed)
+    except discord.Forbidden:
+        await ctx.send(url)
+
+
 class Images(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.imgur_buffers = [
-            AsyncBuffer(get_imgur_url(7), loop=bot.loop, maxsize=1000).fill(),
-            AsyncBuffer(get_imgur_url(5), loop=bot.loop).fill(),
+            AsyncBuffer(_get_imgur_url(7), loop=bot.loop, maxsize=1000).fill(),
+            AsyncBuffer(_get_imgur_url(5), loop=bot.loop).fill(),
         ]
-        self.inspirobot_buffer = AsyncBuffer(get_inspirobot_url(), loop=bot.loop).fill()
+        self.inspirobot_buffer = AsyncBuffer(
+            _get_inspirobot_url(), loop=bot.loop
+        ).fill()
 
     @commands.is_nsfw()
     @commands.cooldown(1, 3, type=BucketType.member)
@@ -67,19 +85,7 @@ class Images(commands.Cog):
         else:
             image_url = await self.imgur_buffers[0].get()
 
-        author = ctx.author
-        image_embed = (
-            discord.Embed(
-                color=embed_bg_color, title=":frame_photo: | Here is your Imgur image:"
-            )
-            .set_author(name=author.display_name, icon_url=author.avatar_url)
-            .set_image(url=image_url)
-        )
-
-        try:
-            await ctx.send(embed=image_embed)
-        except discord.Forbidden:
-            await ctx.send(image_url)
+        await _send_embed(ctx, "Imgur", image_url)
 
     @commands.cooldown(1, 3, type=BucketType.member)
     @commands.command(aliases=["ib", "IB"])
@@ -87,20 +93,7 @@ class Images(commands.Cog):
         "Get a random image from InspiroBot."
         image_url = await self.inspirobot_buffer.get()
 
-        author = ctx.author
-        image_embed = (
-            discord.Embed(
-                color=embed_bg_color,
-                title=":frame_photo: | Here is your InspiroBot image:",
-            )
-            .set_author(name=author.display_name, icon_url=author.avatar_url)
-            .set_image(url=image_url)
-        )
-
-        try:
-            await ctx.send(embed=image_embed)
-        except discord.Forbidden:
-            await ctx.send(image_url)
+        await _send_embed(ctx, "InspiroBot", image_url)
 
 
 def setup(bot: Bot) -> None:
