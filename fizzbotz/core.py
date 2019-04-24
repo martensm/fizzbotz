@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-import logging
+import io
 import traceback
 from typing import List, Optional, Union
 
 import discord
-from discord.ext.commands import Bot, CommandInvokeError, Context
+from discord.ext import commands
 
 from .environments import DEBUG, DEBUG_TOKEN, DESCRIPTION, PREFIX, STATUS, TOKEN
+from .log import logger
 
-log = logging.getLogger(__name__)
 initial_extensions = (
     "fizzbotz.cogs.admin",
     "fizzbotz.cogs.avatar",
@@ -20,7 +20,7 @@ initial_extensions = (
 )
 
 
-class FizzBotz(Bot):
+class FizzBotz(commands.Bot):
     def __init__(
         self,
         token: Optional[str] = None,
@@ -51,17 +51,26 @@ class FizzBotz(Bot):
             try:
                 self.load_extension(extension)
             except (discord.ClientException, ImportError):
-                log.exception(f"Failed to load extension {extension}.")
+                logger.exception(f"Failed to load extension {extension}.")
 
     async def on_ready(self) -> None:
         activity = discord.Game(name=self.status)
         await self.change_presence(activity=activity)
 
-    async def on_command_error(self, context: Context, exception: Exception) -> None:
-        if isinstance(exception, CommandInvokeError):
-            log.error(f"In {context.command.qualified_name}:")
-            traceback.print_tb(exception.original.__traceback__)
-            log.error(f"{exception.original.__class__.__name__}: {exception.original}")
+    async def on_command_error(self, ctx: Context, error: Exception) -> None:
+        if isinstance(error, commands.CommandInvokeError):
+            original = error.original
+            if not isinstance(original, discord.HTTPException):
+                tb = io.StringIO()
+                traceback.print_tb(original.__traceback__, None, tb)
+                logger.error(
+                    f'Exception raised from command "{ctx.command.qualified_name}":'
+                    f"\n{tb.getvalue().rstrip()}"
+                )
+
+                logger.error(f"{original.__class__.__name__}: {original}")
+        elif isinstance(error, commands.ArgumentParsingError):
+            await ctx.send(error)
 
     def launch(self) -> None:
         super().run(self.token)
