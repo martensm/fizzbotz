@@ -3,7 +3,7 @@ from __future__ import annotations
 import discord
 from discord.ext import commands
 
-embed_bg_color = discord.Color.from_rgb(54, 57, 63)
+_embed_bg_color = discord.Color.from_rgb(54, 57, 63)
 
 
 class Avatar(commands.Cog):
@@ -17,9 +17,9 @@ class Avatar(commands.Cog):
         else:
             avatar_url = member.avatar_url
 
-        avatar_embed = discord.Embed(color=embed_bg_color).set_image(url=avatar_url)
+        avatar_embed = discord.Embed(color=_embed_bg_color).set_image(url=avatar_url)
         await ctx.send(embed=avatar_embed)
 
 
-def setup(bot: Bot) -> None:
+def setup(bot: commands.Bot) -> None:
     bot.add_cog(Avatar())

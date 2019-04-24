@@ -10,7 +10,7 @@ from discord.ext import commands
 from .environments import DEBUG, DEBUG_TOKEN, DESCRIPTION, PREFIX, STATUS, TOKEN
 from .log import logger
 
-initial_extensions = (
+_initial_extensions = (
     "fizzbotz.cogs.admin",
     "fizzbotz.cogs.avatar",
     "fizzbotz.cogs.eightball",
@@ -47,7 +47,7 @@ class FizzBotz(commands.Bot):
             help_attrs=dict(hidden=True),
         )
 
-        for extension in initial_extensions:
+        for extension in _initial_extensions:
             try:
                 self.load_extension(extension)
             except (discord.ClientException, ImportError):

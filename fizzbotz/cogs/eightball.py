@@ -4,7 +4,7 @@ import random
 
 from discord.ext import commands
 
-responses = [
+_responses = [
     "It is certain.",
     "It is decidedly so.",
     "Without a doubt.",
@@ -32,8 +32,8 @@ class Eightball(commands.Cog):
     @commands.command(aliases=["8", "8ball", "eb", "e", "E"])
     async def eightball(self, ctx: commands.Context) -> None:
         """Get a random answer from an eight ball."""
-        index = random.randrange(0, len(responses))
-        msg = responses[index]
+        index = random.randrange(0, len(_responses))
+        msg = _responses[index]
 
         if index < 10:
             format_char = "+"

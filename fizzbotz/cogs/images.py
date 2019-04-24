@@ -12,7 +12,7 @@ import aiohttp
 
 from ..utils import AsyncBuffer
 
-embed_bg_color = discord.Color.from_rgb(54, 57, 63)
+_embed_bg_color = discord.Color.from_rgb(54, 57, 63)
 
 
 def _get_imgur_url(id_length: int) -> str:
@@ -52,7 +52,7 @@ async def _send_embed(ctx: commands.Context, title: str, url: str) -> None:
     author = ctx.author
     image_embed = (
         discord.Embed(
-            color=embed_bg_color, title=f":frame_photo: | Here is your {title} image:"
+            color=_embed_bg_color, title=f":frame_photo: | Here is your {title} image:"
         )
         .set_author(name=author.display_name, icon_url=author.avatar_url)
         .set_image(url=url)
