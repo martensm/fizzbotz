@@ -57,7 +57,7 @@ class FizzBotz(commands.Bot):
         activity = discord.Game(name=self.status)
         await self.change_presence(activity=activity)
 
-    async def on_command_error(self, ctx: Context, error: Exception) -> None:
+    async def on_command_error(self, ctx: commands.Context, error: Exception) -> None:
         if isinstance(error, commands.CommandInvokeError):
             original = error.original
             if not isinstance(original, discord.HTTPException):
