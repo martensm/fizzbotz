@@ -2,18 +2,17 @@ from __future__ import annotations
 
 import discord
 from discord.ext import commands
-from discord.ext.commands import Bot, Context
 
 
 class Extensions(commands.Cog):
     @commands.group(aliases=["ext"], invoke_without_command=True)
     @commands.is_owner()
-    async def extension(self, ctx: Context) -> None:
+    async def extension(self, ctx: commands.Context) -> None:
         await ctx.send("\n".join(f"\u2022 {key}" for key in ctx.bot.extensions))
 
     @extension.command(aliases=["l", "L"])
     @commands.is_owner()
-    async def load(self, ctx: Context, extension: str) -> None:
+    async def load(self, ctx: commands.Context, extension: str) -> None:
         was_loaded = False
         if f"fizzbotz.cogs.{extension}" in ctx.bot.extensions:
             was_loaded = True
@@ -33,7 +32,7 @@ class Extensions(commands.Cog):
 
     @extension.command(aliases=["u", "U"])
     @commands.is_owner()
-    async def unload(self, ctx: Context, extension: str) -> None:
+    async def unload(self, ctx: commands.Context, extension: str) -> None:
         if f"fizzbotz.cogs.{extension}" not in ctx.bot.extensions:
             await ctx.send(f"Extension `{extension}` is not loaded")
             return
@@ -44,5 +43,5 @@ class Extensions(commands.Cog):
             await ctx.send(f"Unloaded extension `{extension}`")
 
 
-def setup(bot: Bot) -> None:
+def setup(bot: commands.Bot) -> None:
     bot.add_cog(Extensions())

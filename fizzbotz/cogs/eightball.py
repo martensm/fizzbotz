@@ -3,7 +3,6 @@ from __future__ import annotations
 import random
 
 from discord.ext import commands
-from discord.ext.commands import Bot, Context
 
 responses = [
     "It is certain.",
@@ -31,7 +30,7 @@ responses = [
 
 class Eightball(commands.Cog):
     @commands.command(aliases=["8", "8ball", "eb", "e", "E"])
-    async def eightball(self, ctx: Context) -> None:
+    async def eightball(self, ctx: commands.Context) -> None:
         """Get a random answer from an eight ball."""
         index = random.randrange(0, len(responses))
         msg = responses[index]
@@ -48,5 +47,5 @@ class Eightball(commands.Cog):
         await ctx.send(msg)
 
 
-def setup(bot: Bot) -> None:
+def setup(bot: commands.Bot) -> None:
     bot.add_cog(Eightball())

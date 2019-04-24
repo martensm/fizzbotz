@@ -7,7 +7,6 @@ import string
 
 import discord
 from discord.ext import commands
-from discord.ext.commands import Bot, BucketType, Context
 
 import aiohttp
 
@@ -49,7 +48,7 @@ def _get_inspirobot_url() -> str:
     return generate_inspirobot_url
 
 
-async def _send_embed(ctx: Context, title: str, url: str) -> None:
+async def _send_embed(ctx: commands.Context, title: str, url: str) -> None:
     author = ctx.author
     image_embed = (
         discord.Embed(
@@ -66,7 +65,7 @@ async def _send_embed(ctx: Context, title: str, url: str) -> None:
 
 
 class Images(commands.Cog):
-    def __init__(self, bot: Bot) -> None:
+    def __init__(self, bot: commands.Bot) -> None:
         self.imgur_buffers = [
             AsyncBuffer(_get_imgur_url(7), loop=bot.loop, maxsize=1000).fill(),
             AsyncBuffer(_get_imgur_url(5), loop=bot.loop).fill(),
@@ -76,9 +75,9 @@ class Images(commands.Cog):
         ).fill()
 
     @commands.is_nsfw()
-    @commands.cooldown(1, 3, type=BucketType.member)
+    @commands.cooldown(1, 3, type=commands.BucketType.member)
     @commands.command(aliases=["i", "I"])
-    async def imgur(self, ctx: Context) -> None:
+    async def imgur(self, ctx: commands.Context) -> None:
         "Get a random image from Imgur. Only works in NSFW channels."
         if self.imgur_buffers[0].empty():
             image_url = await self.imgur_buffers[1].get()
@@ -87,14 +86,14 @@ class Images(commands.Cog):
 
         await _send_embed(ctx, "Imgur", image_url)
 
-    @commands.cooldown(1, 3, type=BucketType.member)
+    @commands.cooldown(1, 3, type=commands.BucketType.member)
     @commands.command(aliases=["ib", "IB"])
-    async def inspirobot(self, ctx: Context) -> None:
+    async def inspirobot(self, ctx: commands.Context) -> None:
         "Get a random image from InspiroBot."
         image_url = await self.inspirobot_buffer.get()
 
         await _send_embed(ctx, "InspiroBot", image_url)
 
 
-def setup(bot: Bot) -> None:
+def setup(bot: commands.Bot) -> None:
     bot.add_cog(Images(bot))
