@@ -15,7 +15,7 @@ python-dotenv = "^0.9.1"
 uvloop = {version = "^0.11.2", platform = "*nix"}
 
 [tool.poetry.dev-dependencies]
-black = {version = "*", allows-prereleases = true}
+black = '*'
 isort = "^4.3"
 pylava = "^0.2.2"
 
